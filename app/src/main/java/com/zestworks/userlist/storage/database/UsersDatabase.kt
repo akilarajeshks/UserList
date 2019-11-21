@@ -10,7 +10,6 @@ import com.zestworks.userlist.features.listing.User
 
 @Database(entities = [User::class, UserInfo::class], version = 1)
 @TypeConverters(TypeConverter::class)
-
 abstract class UsersDatabase : RoomDatabase() {
     abstract fun usersDAO(): UsersDAO
 

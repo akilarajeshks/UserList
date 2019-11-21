@@ -50,8 +50,8 @@ dependencies {
     implementation 'com.squareup.picasso:picasso:2.71828'
 
     // Koin for Android
-    implementation "org.koin:koin-android-architecture:0.9.1"
-    implementation 'org.koin:koin-androidx-viewmodel:2.0.1'
+    def koin_version = "2.0.1"
+    implementation "org.koin:koin-android:$koin_version"
 
     // Scope for AndroidX
     implementation 'org.koin:koin-androidx-scope:2.0.1'
@@ -77,6 +77,6 @@ dependencies {
     implementation "android.arch.persistence.room:runtime:1.1.1"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.2"
 
+    // Loader effects
     implementation 'com.facebook.shimmer:shimmer:0.4.0@aar'
-
 }

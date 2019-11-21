@@ -9,7 +9,11 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.squareup.picasso.Picasso
 import com.zestworks.userlist.R
+import com.zestworks.userlist.storage.database.UsersDAO
+import com.zestworks.userlist.storage.network.NetworkService
 import kotlinx.android.synthetic.main.user_info_fragment.*
+import org.koin.android.ext.android.get
+import java.util.*
 
 
 class UserInfoFragment : Fragment() {
@@ -27,8 +31,13 @@ class UserInfoFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
         if (arguments != null) {
             val userId = UserInfoFragmentArgs.fromBundle(arguments!!).userId
+            val usersDAO: UsersDAO = get()
+            val networkService: NetworkService = get()
             viewModel =
-                ViewModelProviders.of(this, UserInfoViewModelFactory(context!!, userId))
+                ViewModelProviders.of(
+                    this,
+                    UserInfoViewModelFactory(usersDAO, networkService, userId)
+                )
                     .get(UserInfoViewModel::class.java)
         }
     }
@@ -54,7 +63,7 @@ class UserInfoFragment : Fragment() {
         Picasso.get().load(userInfo.image).into(user_image)
         user_name.text = String.format(
             getString(R.string.username),
-            userInfo.nameTitle.toUpperCase(),
+            userInfo.nameTitle.toUpperCase(Locale.getDefault()),
             userInfo.firstName,
             userInfo.lastName
         )

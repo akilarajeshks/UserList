@@ -11,7 +11,10 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.zestworks.userlist.R
+import com.zestworks.userlist.storage.database.UsersDAO
+import com.zestworks.userlist.storage.network.NetworkService
 import kotlinx.android.synthetic.main.user_list_fragment.*
+import org.koin.android.ext.android.get
 
 
 class UserListFragment : Fragment() {
@@ -27,7 +30,10 @@ class UserListFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProviders.of(activity!!, UserListViewModelFactory(activity!!))
+        val usersDAO: UsersDAO = get()
+        val networkService: NetworkService = get()
+        viewModel =
+            ViewModelProviders.of(activity!!, UserListViewModelFactory(usersDAO, networkService))
             .get(UserListViewModel::class.java)
     }
 
