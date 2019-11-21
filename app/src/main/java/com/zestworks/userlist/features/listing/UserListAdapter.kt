@@ -8,11 +8,11 @@ import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
-
 import com.zestworks.userlist.R
 
 class UserListAdapter(
-    private val users: List<User>
+    private val users: List<User>,
+    private val adapterCallbacks: AdapterClickCallback
 ) : RecyclerView.Adapter<UserListAdapter.UserListViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
         UserListViewHolder(
@@ -34,13 +34,20 @@ class UserListAdapter(
     }
 
 
-    inner class UserListViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    inner class UserListViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView),
+        View.OnClickListener {
         val userImage: ImageView = itemView.findViewById(R.id.user_image)
         val userName: TextView = itemView.findViewById(R.id.user_name_text)
         var userId: Int = 0
         private val parentContainer: CardView = itemView.findViewById(R.id.parentContainer)
 
+        init {
+            parentContainer.setOnClickListener(this)
+        }
 
+        override fun onClick(v: View?) {
+            adapterCallbacks.onUserItemClicked(userId)
+        }
     }
 }
 

@@ -1,5 +1,6 @@
 package com.zestworks.userlist.features.listing
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import com.zestworks.userlist.storage.database.UsersDAO
 import com.zestworks.userlist.storage.network.NetworkService
@@ -13,9 +14,13 @@ class OfflineFirstUserListRepository(
     UserListRepository {
     override fun getUserList(coroutineScope: CoroutineScope): LiveData<List<User>> {
         coroutineScope.launch {
-            val usersListResponse = networkService.getUsersList()
-            if (usersListResponse.isSuccessful && usersListResponse.body() != null) {
-                usersDAO.addAllUsers(usersListResponse.body()!!.users)
+            try {
+                val usersListResponse = networkService.getUsersList()
+                if (usersListResponse.isSuccessful && usersListResponse.body() != null) {
+                    usersDAO.addAllUsers(usersListResponse.body()!!.users)
+                }
+            } catch (exception: Exception) {
+                Log.d("Network exception", exception.message!!)
             }
         }
         return usersDAO.getAllUsers()
