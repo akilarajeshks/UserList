@@ -1,14 +1,15 @@
 package com.zestworks.userlist.features.listing
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.zestworks.userlist.R
+import kotlinx.android.synthetic.main.user_list_fragment.*
 
 
 class UserListFragment : Fragment() {
@@ -31,12 +32,17 @@ class UserListFragment : Fragment() {
 
     override fun onStart() {
         super.onStart()
+        viewModel.onUILoaded()
 
         viewModel.userListState.observe(this, Observer {
             if (it != null) {
-                Log.d("", it.toString())
+                if (user_list_recycler.adapter == null) {
+                    user_list_recycler.apply {
+                        adapter = UserListAdapter(it)
+                        layoutManager = LinearLayoutManager(this.context)
+                    }
+                }
             }
         })
-        viewModel.onUILoaded()
     }
 }
