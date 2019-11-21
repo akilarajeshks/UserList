@@ -10,7 +10,7 @@ class UserInfoViewModel(
 ) : ViewModel() {
     lateinit var userInfo: LiveData<UserInfo>
 
-    fun getUserInfo() {
+    fun onUILoad() {
         userInfo = userInfoRepository.getUserInfo(viewModelScope, userId)
     }
 }

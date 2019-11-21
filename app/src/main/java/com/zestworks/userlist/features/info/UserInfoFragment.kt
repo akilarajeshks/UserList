@@ -35,7 +35,7 @@ class UserInfoFragment : Fragment() {
 
     override fun onStart() {
         super.onStart()
-        viewModel.getUserInfo()
+        viewModel.onUILoad()
 
         viewModel.userInfo.observe(this, Observer {
             if (it != null) {

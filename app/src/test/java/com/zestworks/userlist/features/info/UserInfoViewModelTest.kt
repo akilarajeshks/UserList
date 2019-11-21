@@ -21,15 +21,16 @@ class UserInfoViewModelTest {
 
     @Before
     fun setUp() {
-        userInfoViewModel = UserInfoViewModel(userInfoRepository)
-        every { userInfoRepository.getUserInfo(userInfoViewModel.viewModelScope, 0) }.returns(
+        val userId = 0
+        userInfoViewModel = UserInfoViewModel(userInfoRepository, userId)
+        every { userInfoRepository.getUserInfo(userInfoViewModel.viewModelScope, userId) }.returns(
             dataSource
         )
     }
 
     @Test
     fun `Test if ui renders data obtained from the repository`() {
-        userInfoViewModel.getUserInfo(0)
+        userInfoViewModel.onUILoad()
         userInfoViewModel.userInfo.value shouldBe null
         dataSource.postValue(USER_INFO_0)
         userInfoViewModel.userInfo.value shouldBe USER_INFO_0
