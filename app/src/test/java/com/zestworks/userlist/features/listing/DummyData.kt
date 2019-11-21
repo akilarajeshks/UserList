@@ -1,4 +1,4 @@
-package com.zestworks.userlist.listing
+package com.zestworks.userlist.features.listing
 
 val DUMMY_USERS = listOf<User>(
     User(

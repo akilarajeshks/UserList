@@ -1,4 +1,4 @@
-package com.zestworks.userlist.info
+package com.zestworks.userlist.features.info
 
 import androidx.lifecycle.ViewModel
 

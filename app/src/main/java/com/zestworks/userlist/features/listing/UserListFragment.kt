@@ -1,4 +1,4 @@
-package com.zestworks.userlist.listing
+package com.zestworks.userlist.features.listing
 
 import android.os.Bundle
 import android.util.Log
@@ -24,15 +24,19 @@ class UserListFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProviders.of(this).get(UserListViewModel::class.java)
+        viewModel = ViewModelProviders.of(activity!!, UserListViewModelFactory(activity!!))
+            .get(UserListViewModel::class.java)
 
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    override fun onStart() {
+        super.onStart()
 
         viewModel.userListState.observe(this, Observer {
-            Log.d("", it.toString())
+            if (it != null) {
+                Log.d("", it.toString())
+            }
         })
+        viewModel.onUILoaded()
     }
 }
