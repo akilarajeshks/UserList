@@ -25,20 +25,27 @@ class UserInfoFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProviders.of(activity!!, UserInfoViewModelFactory(activity!!))
-            .get(UserInfoViewModel::class.java)
         if (arguments != null) {
-            val userId = arguments!!.getInt("userId")
-            viewModel.getUserInfo(userId)
+            val userId = UserInfoFragmentArgs.fromBundle(arguments!!).userId
+            viewModel =
+                ViewModelProviders.of(this, UserInfoViewModelFactory(context!!, userId))
+                    .get(UserInfoViewModel::class.java)
         }
     }
 
     override fun onStart() {
         super.onStart()
+        viewModel.getUserInfo()
 
         viewModel.userInfo.observe(this, Observer {
             if (it != null) {
+                loader.visibility = View.GONE
                 renderUserInfo(it)
+                content.visibility = View.VISIBLE
+            } else {
+                content.visibility = View.GONE
+                loader.visibility = View.VISIBLE
+                loader.startShimmer()
             }
         })
     }

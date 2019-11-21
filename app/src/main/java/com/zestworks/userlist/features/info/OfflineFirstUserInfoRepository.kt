@@ -20,7 +20,7 @@ class OfflineFirstUserInfoRepository(
                     usersDAO.addUserInfo(userInfoResponse.body()!!)
                 }
             } catch (exception: Exception) {
-                Log.d("Network exception", exception.message!!)
+                Log.d("Network exception", exception.toString())
             }
         }
         return usersDAO.getUserInfo(userId)

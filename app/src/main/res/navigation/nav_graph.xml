@@ -18,5 +18,9 @@
         android:id="@+id/userInfoFragment"
         android:name="com.zestworks.userlist.features.info.UserInfoFragment"
         android:label="user_info_fragment"
-        tools:layout="@layout/user_info_fragment" />
+        tools:layout="@layout/user_info_fragment">
+        <argument
+            android:name="userId"
+            app:argType="integer" />
+    </fragment>
 </navigation>

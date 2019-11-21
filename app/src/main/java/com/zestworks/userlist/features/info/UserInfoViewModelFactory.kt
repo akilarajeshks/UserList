@@ -9,7 +9,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 @Suppress("UNCHECKED_CAST")
-class UserInfoViewModelFactory(private val context: Context) :
+class UserInfoViewModelFactory(private val context: Context, private val userId: Int) :
     ViewModelProvider.NewInstanceFactory() {
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
         val userDAO = UsersDatabase.getDatabase(context).usersDAO()
@@ -19,6 +19,9 @@ class UserInfoViewModelFactory(private val context: Context) :
             .addConverterFactory(GsonConverterFactory.create())
             .build()
         val networkService = retrofit.create(NetworkService::class.java)
-        return UserInfoViewModel(OfflineFirstUserInfoRepository(userDAO, networkService)) as T
+        return UserInfoViewModel(
+            OfflineFirstUserInfoRepository(userDAO, networkService),
+            userId
+        ) as T
     }
 }

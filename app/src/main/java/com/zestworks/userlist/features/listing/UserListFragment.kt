@@ -1,5 +1,6 @@
 package com.zestworks.userlist.features.listing
 
+import android.animation.ObjectAnimator
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -28,7 +29,6 @@ class UserListFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProviders.of(activity!!, UserListViewModelFactory(activity!!))
             .get(UserListViewModel::class.java)
-
     }
 
     override fun onStart() {
@@ -37,28 +37,41 @@ class UserListFragment : Fragment() {
 
         viewModel.userListState.observe(this, Observer {
             if (it != null) {
+                user_list_recycler.visibility = View.VISIBLE
+                list_loader.visibility = View.GONE
                 if (user_list_recycler.adapter == null) {
                     user_list_recycler.apply {
-                        adapter = UserListAdapter(it, object : AdapterClickCallback {
+                        adapter = UserListAdapter(it, object : AdapterCallback {
                             override fun onUserItemClicked(userId: Int) {
-                                //TODO use safe args
-                                val bundle = Bundle()
-                                bundle.putInt("userId", userId)
+                                val actionUserListFragmentToUserInfoFragment =
+                                    UserListFragmentDirections.actionUserListFragmentToUserInfoFragment(
+                                        userId
+                                    )
                                 findNavController().navigate(
-                                    R.id.action_userListFragment_to_userInfoFragment,
-                                    bundle
+                                    actionUserListFragmentToUserInfoFragment
                                 )
                             }
 
                         })
                         layoutManager = LinearLayoutManager(this.context)
                     }
+                } else {
+                    (user_list_recycler.adapter as UserListAdapter).notifyDataSetChanged()
+                }
+            } else {
+                user_list_recycler.visibility = View.GONE
+                list_loader.visibility = View.VISIBLE
+                ObjectAnimator.ofFloat(list_loader, "rotation", 180f, 0f).apply {
+                    duration = 2000
+                    repeatCount = ObjectAnimator.INFINITE
+                    repeatMode = ObjectAnimator.REVERSE
+                    start()
                 }
             }
         })
     }
 }
 
-interface AdapterClickCallback {
+interface AdapterCallback {
     fun onUserItemClicked(userId: Int)
 }

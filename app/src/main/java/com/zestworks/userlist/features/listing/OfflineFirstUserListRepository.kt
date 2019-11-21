@@ -20,7 +20,7 @@ class OfflineFirstUserListRepository(
                     usersDAO.addAllUsers(usersListResponse.body()!!.users)
                 }
             } catch (exception: Exception) {
-                Log.d("Network exception", exception.message!!)
+                Log.d("Network exception", exception.toString())
             }
         }
         return usersDAO.getAllUsers()

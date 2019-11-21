@@ -12,7 +12,7 @@ import com.zestworks.userlist.R
 
 class UserListAdapter(
     private val users: List<User>,
-    private val adapterCallbacks: AdapterClickCallback
+    private val adapterCallbacks: AdapterCallback
 ) : RecyclerView.Adapter<UserListAdapter.UserListViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
         UserListViewHolder(
