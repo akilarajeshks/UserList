@@ -14,10 +14,8 @@ class OfflineFirstUserListRepository(
     override fun getUserList(coroutineScope: CoroutineScope): LiveData<List<User>> {
         coroutineScope.launch {
             val usersListResponse = networkService.getUsersList()
-            if (usersListResponse.isSuccessful) {
-                if (usersListResponse.body() != null) {
-                    usersDAO.addAllUsers(usersListResponse.body()!!.users)
-                }
+            if (usersListResponse.isSuccessful && usersListResponse.body() != null) {
+                usersDAO.addAllUsers(usersListResponse.body()!!.users)
             }
         }
         return usersDAO.getAllUsers()

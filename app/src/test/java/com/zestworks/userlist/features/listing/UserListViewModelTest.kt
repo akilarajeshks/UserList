@@ -29,9 +29,9 @@ class UserListViewModelTest {
 
     @Test
     fun `Test if ui renders data obtained from the repository`() {
+        userListViewModel.onUILoaded()
         userListViewModel.userListState.value shouldBe null
         dataSource.postValue(DUMMY_USERS)
-        userListViewModel.onUILoaded()
         userListViewModel.userListState.value shouldBe DUMMY_USERS
     }
 
