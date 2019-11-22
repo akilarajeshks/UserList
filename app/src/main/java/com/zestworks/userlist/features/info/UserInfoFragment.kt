@@ -35,7 +35,7 @@ class UserInfoFragment : Fragment() {
             val networkService: NetworkService = get()
             viewModel =
                 ViewModelProviders.of(
-                    activity!!,
+                    this,
                     UserInfoViewModelFactory(usersDAO, networkService, userId)
                 )
                     .get(UserInfoViewModel::class.java)

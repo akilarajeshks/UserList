@@ -11,7 +11,7 @@ class UserInfoViewModel(
     var userInfo: LiveData<UserInfo>? = null
 
     fun onUILoad() {
-        if (userInfo == null) {
+        if (userInfo == null || userInfo?.value?.id != userId) {
             userInfo = userInfoRepository.getUserInfo(viewModelScope, userId)
         }
     }

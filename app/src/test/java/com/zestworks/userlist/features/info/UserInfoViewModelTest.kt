@@ -39,9 +39,11 @@ class UserInfoViewModelTest {
 
     @Test
     fun `Test whether network call is not made again after device rotation`() {
+        dataSource.postValue(USER_INFO_0)
         userInfoViewModel.onUILoad()
         userInfoViewModel.onUILoad()
         userInfoViewModel.onUILoad()
+
         verify(exactly = 1) {
             userInfoRepository.getUserInfo(userInfoViewModel.viewModelScope, 0)
         }
