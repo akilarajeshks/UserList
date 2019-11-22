@@ -35,7 +35,7 @@ class UserInfoFragment : Fragment() {
             val networkService: NetworkService = get()
             viewModel =
                 ViewModelProviders.of(
-                    this,
+                    activity!!,
                     UserInfoViewModelFactory(usersDAO, networkService, userId)
                 )
                     .get(UserInfoViewModel::class.java)
@@ -46,7 +46,7 @@ class UserInfoFragment : Fragment() {
         super.onStart()
         viewModel.onUILoad()
 
-        viewModel.userInfo.observe(this, Observer {
+        viewModel.userInfo?.observe(this, Observer {
             if (it != null) {
                 loader.visibility = View.GONE
                 renderUserInfo(it)

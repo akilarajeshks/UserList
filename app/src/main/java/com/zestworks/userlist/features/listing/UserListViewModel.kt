@@ -5,9 +5,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 
 class UserListViewModel(private val userListRepository: UserListRepository) : ViewModel() {
-    lateinit var userListState: LiveData<List<User>>
+    var userListState: LiveData<List<User>>? = null
 
     fun onUILoaded() {
-        userListState = userListRepository.getUserList(viewModelScope)
+        if (userListState == null) {
+            userListState = userListRepository.getUserList(viewModelScope)
+        }
     }
 }

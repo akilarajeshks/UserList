@@ -33,7 +33,7 @@ class UserListFragment : Fragment() {
         val usersDAO: UsersDAO = get()
         val networkService: NetworkService = get()
         viewModel =
-            ViewModelProviders.of(this, UserListViewModelFactory(usersDAO, networkService))
+            ViewModelProviders.of(activity!!, UserListViewModelFactory(usersDAO, networkService))
             .get(UserListViewModel::class.java)
     }
 
@@ -41,7 +41,7 @@ class UserListFragment : Fragment() {
         super.onStart()
         viewModel.onUILoaded()
 
-        viewModel.userListState.observe(this, Observer {
+        viewModel.userListState?.observe(this, Observer {
             if (it != null) {
                 user_list_recycler.visibility = View.VISIBLE
                 list_loader.visibility = View.GONE

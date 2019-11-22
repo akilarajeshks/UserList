@@ -8,9 +8,11 @@ class UserInfoViewModel(
     private val userInfoRepository: UserInfoRepository,
     private val userId: Int
 ) : ViewModel() {
-    lateinit var userInfo: LiveData<UserInfo>
+    var userInfo: LiveData<UserInfo>? = null
 
     fun onUILoad() {
-        userInfo = userInfoRepository.getUserInfo(viewModelScope, userId)
+        if (userInfo == null) {
+            userInfo = userInfoRepository.getUserInfo(viewModelScope, userId)
+        }
     }
 }
