@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import io.kotlintest.shouldBe
 import io.mockk.every
 import io.mockk.mockk
+import io.mockk.verify
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -30,9 +31,19 @@ class UserListViewModelTest {
     @Test
     fun `Test if ui renders data obtained from the repository`() {
         userListViewModel.onUILoaded()
-        userListViewModel.userListState.value shouldBe null
+        userListViewModel.userListState?.value shouldBe null
         dataSource.postValue(DUMMY_USERS)
-        userListViewModel.userListState.value shouldBe DUMMY_USERS
+        userListViewModel.userListState?.value shouldBe DUMMY_USERS
+    }
+
+    @Test
+    fun `Test whether network call is not made again after device rotation`() {
+        userListViewModel.onUILoaded()
+        userListViewModel.onUILoaded()
+        userListViewModel.onUILoaded()
+        verify(exactly = 1) {
+            userListRepository.getUserList(userListViewModel.viewModelScope)
+        }
     }
 
 }
