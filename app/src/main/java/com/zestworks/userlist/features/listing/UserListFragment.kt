@@ -33,7 +33,7 @@ class UserListFragment : Fragment() {
         val usersDAO: UsersDAO = get()
         val networkService: NetworkService = get()
         viewModel =
-            ViewModelProviders.of(activity!!, UserListViewModelFactory(usersDAO, networkService))
+            ViewModelProviders.of(this, UserListViewModelFactory(usersDAO, networkService))
             .get(UserListViewModel::class.java)
     }
 
